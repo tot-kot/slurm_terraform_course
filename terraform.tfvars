@@ -21,3 +21,8 @@ nlb_healthcheck = {
     name   = "test"
     path   = "/"
 }
+az = [
+  "ru-central1-a",
+  "ru-central1-b",
+  "ru-central1-c",
+]

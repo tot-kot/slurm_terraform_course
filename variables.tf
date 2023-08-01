@@ -46,6 +46,10 @@ variable "vpc_id" {
   description = "You can set already exist VPC ID"
 }
 
+variable "az" {
+  type = list(string)
+}
+
 locals {
   preffix     = "slurm-"
 }

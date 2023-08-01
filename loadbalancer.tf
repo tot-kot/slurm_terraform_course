@@ -4,18 +4,18 @@ resource "yandex_lb_target_group" "this" {
   labels    = var.labels
 
   target {
-    subnet_id = yandex_vpc_subnet.this-a.id
-    address   = yandex_compute_instance.this-a.network_interface.0.ip_address
+    subnet_id = yandex_vpc_subnet.this[0].id
+    address   = yandex_compute_instance.this[0].network_interface.0.ip_address
   }
 
   target {
-    subnet_id = yandex_vpc_subnet.this-b.id
-    address   = yandex_compute_instance.this-b.network_interface.0.ip_address
+    subnet_id = yandex_vpc_subnet.this[1].id
+    address   = yandex_compute_instance.this[1].network_interface.0.ip_address
   }
 
   target {
-    subnet_id = yandex_vpc_subnet.this-c.id
-    address   = yandex_compute_instance.this-c.network_interface.0.ip_address
+    subnet_id = yandex_vpc_subnet.this[2].id
+    address   = yandex_compute_instance.this[2].network_interface.0.ip_address
   }
 }
 
