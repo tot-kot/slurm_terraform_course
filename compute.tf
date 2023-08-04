@@ -1,8 +1,8 @@
 resource "yandex_compute_instance" "this" {
-  count       = 3
+  count       = var.vm_count
   name        = "${local.preffix}${var.vm_name}-${count.index}"
   platform_id = "standard-v2"
-  zone        = var.az[count.index]
+  zone        = var.az[count.index % length(var.az)]
   hostname    = "${var.vm_name}-${count.index}"
   labels      = var.labels
 
@@ -21,13 +21,13 @@ resource "yandex_compute_instance" "this" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = data.yandex_compute_image.this.id
       size = var.resources.disk
     }
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.this[count.index].id
+    subnet_id = yandex_vpc_subnet.this[var.az[count.index % length(var.az)]].id
     nat       = false
   }
 

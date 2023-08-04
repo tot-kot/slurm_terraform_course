@@ -6,8 +6,11 @@ labels = {
 resources = {
   cpu     = 2
   memory  = 1
+  image   = "centos-7"
   disk    = 10
 }
+
+vm_count = 3
 
 cidr_blocks = [
   ["10.10.1.0/24"],
@@ -15,7 +18,7 @@ cidr_blocks = [
   ["10.10.3.0/24"],
 ]
 
-nlb_port = 22
+nlb_port = 80
 
 nlb_healthcheck = {
     name   = "test"

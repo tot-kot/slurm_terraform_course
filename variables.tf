@@ -4,10 +4,10 @@ variable "vm_name" {
   default     = "alnitak"
 }
 
-variable "image_id" {
-  type        = string
-  description = "ID of the image for create instance"
-  default     = "fd87bs5724r0ngu3jlb6"
+variable "vm_count" {
+  type        = number
+  description = "Count of total virtual machines"
+  default     = 3
 }
 
 variable "labels" {
@@ -19,6 +19,7 @@ variable "resources" {
   type        = object({
     cpu       = number
     memory    = number
+    image     = string
     disk      = number
   })
   description = "Configure vm resources"
