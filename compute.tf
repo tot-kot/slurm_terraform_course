@@ -28,10 +28,31 @@ resource "yandex_compute_instance" "this" {
 
   network_interface {
     subnet_id = yandex_vpc_subnet.this[var.az[count.index % length(var.az)]].id
-    nat       = false
+    nat       = true
   }
 
   metadata = {
     ssh-keys = "yc-user:${file("~/.ssh/id_ed25519.pub")}"
+  }
+
+  provisioner "remote-exec" {
+    inline = ["ping ${self.network_interface.0.nat_ip_address} -c 3"]
+    connection {
+      host  = self.network_interface.0.nat_ip_address
+      type  = "ssh"
+      user  = "centos"
+      private_key = file("~/.ssh/id_ed25519")
+      agent = true
+    }
+  }
+}
+
+resource "null_resource" "ansible" {
+  provisioner "local-exec" {
+    command = "ansible-playbook -u centos -i $HOSTS ansible/playbook.yml"
+    environment = {
+      ANSIBLE_HOST_KEY_CHECKING = "False"
+      HOSTS = join(",", yandex_compute_instance.this.*.network_interface.0.nat_ip_address)
+    }
   }
 }
